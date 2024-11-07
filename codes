@@ -49,6 +49,22 @@ def lambda_handler(event, context):
     "key3": "value3"
 }
 
+//JAVA
+import com.amazonaws.services.lambda.runtime.Context;
+import com.amazonaws.services.lambda.runtime.RequestHandler;
+import java.util.Map;
+
+public class HelloLambda implements RequestHandler<Map<String, String>, String> {
+    
+    @Override
+    public String handleRequest(Map<String, String> event, Context context) {
+        // Retrieve the student name from the event data, defaulting to "Student" if not provided
+        String studentName = event.getOrDefault("studentName", "Student");
+        return "Hello_" + studentName;
+    }
+}
+
+
 //SonarQube Python
 # Another Sample Python code for SonarQube testing
 
