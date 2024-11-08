@@ -39,5 +39,66 @@ public class MathOperations {
     }
 }
 
+//PYTHON SCRIPT
+num = int(input("Enter a number: "))
+factorial = 1
+
+if num < 0:
+    print("Factorial does not exist for negative numbers")
+elif num == 0:
+    print("The factorial of 0 is 1")
+else:
+    for i in range(1, num + 1):
+        factorial = factorial * i
+    print("The factorial of", num, "is", factorial)
+
+//PYTHON FILE
+num = 5
+
+if num < 0:
+    print("Enter a positive number")
+else:
+    sum = 0
+    # use while loop to iterate until zero
+    while(num > 0):
+        sum += num
+        num -= 1
+    print("The sum is", sum)
+
+
+
+//PIPELINE SCRIPT
+pipeline {
+    agent any
+    
+    stages {
+        stage('Hello') {
+            steps {
+                echo "Hello World"
+            }
+        }
+    }
+}
+
+//slave-master
+new node-samarth_node
+no of executors-2 and set remote directory and label- sam-slave
+enable tcp/ip connection to random
+then enter the command in command prompt to run the agent(screenshot of agent is connected)
+making the node temporarily offline
+create a project- freestyle project
+restrict where this project can be used- sam-slave
+build steps- windows batch command- echo "Hello World"
+console output
+apply cron command to run command every 5 minutes
+build history
+console output (started by timer)
+
+//WEBHOOK HOOKDECK COMMAND
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+hookdeck listen 8080
+
+
 
 
