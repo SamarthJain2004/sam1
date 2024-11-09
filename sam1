@@ -39,6 +39,12 @@ public class MathOperations {
     }
 }
 
+//java (parameterised)
++args[0]
++args[1]
+
+
+
 //PYTHON SCRIPT
 num = int(input("Enter a number: "))
 factorial = 1
@@ -99,6 +105,37 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 hookdeck listen 8080
 
+// Pull, Push, fetch and merge operations between Git and GitHub.
+1) create a repository 
+2) Go to your GitHub repository page, and copy the SSH or HTTPS URL.
+Open Command Prompt and clone the repository with: git clone <repository-url>
+3) Change directory to the cloned repository: cd repository-name
+4) 
+
+//DOCKER
+# Use an official base image (e.g., Node.js for a Node.js app)
+FROM node:16
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application’s code to the container
+COPY . .
+
+# Expose the application’s port
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]
+
+2) docker build -t myapp .
+3) docker run -p 3000:3000 myapp
 
 
 
