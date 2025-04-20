@@ -57,3 +57,668 @@ class HomePage extends StatelessWidget {
   }
 }
 
+1. Modify the app UI to include two more widgets and show the output.
+CODE:
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(const MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'My Mobile App',
+      home: HomePage(),
+    );
+  }
+}
+
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0; // To track the selected index for the bottom navigation bar
+
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('My App'),
+        backgroundColor: Colors.blue[500],
+      ),
+      drawer:  Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+              child: Text(
+                'Drawer Header',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+            ),
+            ListTile(
+              title: Text('Item 1'),
+            ),
+            ListTile(
+              title: Text('Item 2'),
+            ),
+          ],
+        ),
+      ),
+      body: Center(
+        child: Text(
+          'Hello and welcome!',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Floating Action Button Pressed!')),
+          );
+        },
+        child: const Icon(Icons.add),
+        backgroundColor: Colors.blue,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.account_circle),
+            label: 'Profile',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+Create a form for the mobile app having two text fields: person’s name and contact number. The form should be able to accept the input when the user submits the form. Also validate the form for null values and display appropriate
+messages.
+CODE:
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: UserForm(),
+    );
+  }
+}
+
+
+class UserForm extends StatefulWidget {
+  @override
+  _UserFormState createState() => _UserFormState();
+}
+
+
+class _UserFormState extends State<UserForm> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _contactController = TextEditingController();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('User Form'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Name Text Field
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Contact Number Text Field
+              TextFormField(
+                controller: _contactController,
+                decoration: InputDecoration(
+                  labelText: 'Contact Number',
+                ),
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your contact number';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Submit Button
+              ElevatedButton(
+                onPressed: () {
+                  // Validate form
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // If valid, show success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Form submitted successfully')),
+                    );
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+1. Add one more text field along with validation, and show the output. Also validate the ‘phone number’ field to ensure that only numeric value is accepted in the ‘phone number’ field.
+CODE:
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: UserForm(),
+    );
+  }
+}
+
+
+class UserForm extends StatefulWidget {
+  @override
+  _UserFormState createState() => _UserFormState();
+}
+
+
+class _UserFormState extends State<UserForm> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _contactController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('User Form'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Name Text Field
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Contact Number Text Field (with numeric validation)
+              TextFormField(
+                controller: _contactController,
+                decoration: InputDecoration(
+                  labelText: 'Contact Number',
+                ),
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your contact number';
+                  }
+                  // Ensure only numeric values are allowed
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    return 'Please enter a valid phone number (numeric only)';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Email Text Field
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email address';
+                  }
+                  // Simple regex for email validation
+                  if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$').hasMatch(value)) {
+                    return 'Please enter a valid email address';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Submit Button
+              ElevatedButton(
+                onPressed: () {
+                  // Validate form
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // If valid, show success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Form submitted successfully')),
+                    );
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+OUTPUT:
+
+
+CODE:
+import 'package:flutter/material.dart';
+
+
+void main() {
+  runApp(MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: UserForm(),
+    );
+  }
+}
+
+
+class UserForm extends StatefulWidget {
+  @override
+  _UserFormState createState() => _UserFormState();
+}
+
+
+class _UserFormState extends State<UserForm> {
+  final _formKey = GlobalKey<FormState>();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _contactController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+ 
+  // Radio button value for gender
+  String? _selectedGender = 'Male'; // Default value is Male
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('User Form'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Name Text Field
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: 'Name',
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your name';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Contact Number Text Field (with numeric validation)
+              TextFormField(
+                controller: _contactController,
+                decoration: InputDecoration(
+                  labelText: 'Contact Number',
+                ),
+                keyboardType: TextInputType.phone,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your contact number';
+                  }
+                  // Ensure only numeric values are allowed
+                  if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+                    return 'Please enter a valid phone number (numeric only)';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Email Text Field
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your email address';
+                  }
+                  // Simple regex for email validation
+                  if (!RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$').hasMatch(value)) {
+                    return 'Please enter a valid email address';
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 20),
+
+
+              // Radio Buttons for Gender
+              Text(
+                'Gender:',
+                style: TextStyle(fontSize: 16),
+              ),
+              Row(
+                children: [
+                  Radio<String>(
+                    value: 'Male',
+                    groupValue: _selectedGender,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedGender = value;
+                      });
+                    },
+                  ),
+                  Text('Male'),
+                  Radio<String>(
+                    value: 'Female',
+                    groupValue: _selectedGender,
+                    onChanged: (String? value) {
+                      setState(() {
+                        _selectedGender = value;
+                      });
+                    },
+                  ),
+                  Text('Female'),
+                ],
+              ),
+              SizedBox(height: 20),
+
+
+              // Submit Button
+              ElevatedButton(
+                onPressed: () {
+                  // Validate form
+                  if (_formKey.currentState?.validate() ?? false) {
+                    // If valid, show success message
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Form submitted successfully')),
+                    );
+                  }
+                },
+                child: Text('Submit'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+4. Design the layout of the mobile app by using the following widgets.
+Material App, Scaffold, Container, Row, Column, ListView, GridView, Table.
+
+
+import 'package:flutter/material.dart';
+void main() {
+  runApp(MyApp());
+}
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(color: Colors.black87), // Use 'bodyMedium' instead of 'bodyText2'
+        ),
+      ),
+      home: MyHomePage(),
+    );
+  }
+}
+
+class MyHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Mobile App Layout'),
+        backgroundColor: Colors.blue[100],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            // ListView with 5 items (Vertical Scroll)
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.3), blurRadius: 6, spreadRadius: 2)],
+              ),
+              height: 190, // Set a fixed height for the ListView
+              child: ListView.builder(
+                itemCount: 3, // Number of items
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    leading: Icon(Icons.star, color: Colors.blueAccent), // Icon for each list item
+                    title: Text(
+                      'List Item $index',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    ), // Title of each list item
+                  );
+                },
+              ),
+            ),
+
+            SizedBox(height: 16), // Space between ListView and GridView
+
+            // GridView 3x3
+            Container(
+              height: 450, // Set a height for the grid view
+              padding: EdgeInsets.all(8),
+              child: GridView.builder(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3, // 3 items per row
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: 9, // 9 items for the grid (3x3)
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: Colors.blue[100],
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(
+                        color: Colors.black12, // Set the border color here
+                        width: 1, // Set the border width
+                      ),
+                      boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 6, spreadRadius: 2)],
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Grid $index',
+                        style: TextStyle(color: Colors.black, fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            SizedBox(height: 16), // Space between GridView and Table
+
+            // Table Section
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [BoxShadow(color: Colors.blue.withOpacity(0.2), blurRadius: 6, spreadRadius: 2)],
+              ),
+              child: Table(
+                border: TableBorder.all(
+                  color: Colors.blue[300]!,
+                  width: 1,
+                ),
+                children: [
+                  TableRow(
+                    decoration: BoxDecoration(color: Colors.blue.withOpacity(0.1)),
+                    children: [
+                      TableCell(child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Column 1', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      )),
+                      TableCell(child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Column 2', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+                      )),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      TableCell(child: Padding(                                      
+                        padding: const EdgeInsets.all(8.0),
+
+                        child: Text('Data 1', style:    
+TextStyle(fontSize: 16)),                                  OUTPUT:
+                      )),
+                      TableCell(child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Data 2', style: TextStyle(fontSize: 16)),
+                      )),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      TableCell(child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Data 3', style: TextStyle(fontSize: 16)),
+                      )),
+                      TableCell(child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text('Data 4', style: TextStyle(fontSize: 16)),
+                      )),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
