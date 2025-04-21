@@ -722,3 +722,236 @@ TextStyle(fontSize: 16)),                                  OUTPUT:
     );
   }
 }
+
+
+
+Write a flutter program to create a display page using scaffold widget showing an image having
+restaurant name and a floating button. On click of the floating button a new menu page should
+open to display the food menu as shown below:
+
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Restaurant App',
+      home: DisplayPage(),
+    );
+  }
+}
+
+class DisplayPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Restaurant')),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Replace with your image
+            Container(
+              height: 300,
+              width: 300,
+              color: Colors.grey[300],
+              child: Center(child: Text('Restaurant Image')),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => MenuPage()),
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class MenuPage extends StatelessWidget {
+  final List<Map<String, String>> menuItems = [
+    {
+      'image': '🍔',
+      'name': 'Burger',
+      'price': '\$5.99',
+    },
+    {
+      'image': '🍕',
+      'name': 'Pizza',
+      'price': '\$8.99',
+    },
+    {
+      'image': '🥗',
+      'name': 'Salad',
+      'price': '\$4.99',
+    },
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Menu')),
+      body: ListView.builder(
+        itemCount: menuItems.length,
+        itemBuilder: (context, index) {
+          final item = menuItems[index];
+          return Card(
+            margin: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.all(10),
+                  width: 80,
+                  height: 80,
+                  color: Colors.grey[300],
+                  child: Center(
+                    child: Text(
+                      item['image']!,
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(item['name']!, style: TextStyle(fontSize: 18)),
+                        Text(item['price']!, style: TextStyle(color: Colors.grey)),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+Design a calculator app using flutter as shown below:
+import 'package:flutter/material.dart';
+import 'package:math_expressions/math_expressions.dart';
+
+void main() => runApp(CalculatorApp());
+
+class CalculatorApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Calculator',
+      home: Calculator(),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class Calculator extends StatefulWidget {
+  @override
+  _CalculatorState createState() => _CalculatorState();
+}
+
+class _CalculatorState extends State<Calculator> {
+  String expression = '';
+  String result = '';
+
+  void onPressed(String text) {
+    setState(() {
+      if (text == 'C') {
+        expression = '';
+        result = '';
+      } else if (text == '=') {
+        try {
+          Parser p = Parser();
+          Expression exp = p.parse(expression);
+          ContextModel cm = ContextModel();
+          double eval = exp.evaluate(EvaluationType.REAL, cm);
+          result = eval.toString();
+        } catch (e) {
+          result = 'Error';
+        }
+      } else {
+        expression += text;
+      }
+    });
+  }
+
+  Widget buildButton(String text) {
+    return Expanded(
+      child: Padding(
+        padding: EdgeInsets.all(4),
+        child: ElevatedButton(
+          onPressed: () => onPressed(text),
+          child: Text(
+            text,
+            style: TextStyle(fontSize: 24),
+          ),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Calculator'),
+        centerTitle: true,
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(16),
+            alignment: Alignment.centerRight,
+            child: Text(
+              expression,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.all(16),
+            alignment: Alignment.centerRight,
+            child: Text(
+              result,
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+          ),
+          Divider(),
+          Expanded(
+            child: Column(
+              children: [
+                Row(
+                  children: [buildButton('C'), buildButton('='), buildButton('-'), buildButton('+')],
+                ),
+                Row(
+                  children: [buildButton('*'), buildButton('/'), buildButton('0'), buildButton('1')],
+                ),
+                Row(
+                  children: [buildButton('2'), buildButton('3'), buildButton('4'), buildButton('5')],
+                ),
+                Row(
+                  children: [buildButton('6'), buildButton('7'), buildButton('8'), buildButton('9')],
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+pubspec.yaml
+math_expressions: ^2.2.0
